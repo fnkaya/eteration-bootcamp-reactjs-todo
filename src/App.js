@@ -3,51 +3,38 @@ import Header from './components/Header';
 import Input from './components/Input';
 import TodoList from './components/Card';
 import {
-  insertToLocaleStorage,
-  getFromLocalStorage,
-} from './service/StorageService';
-import uniqid from 'uniqid';
+  loadTodos,
+  addTodo,
+  updateTodo,
+  deleteTodo,
+} from './actions/todoActions';
+import { useSelector, useDispatch } from 'react-redux';
 
 const App = () => {
-  const [todoList, setTodoList] = useState([]);
+  const todoList = useSelector((state) => state.todoReducer.toJS().todoList);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setTodoList(getFromLocalStorage());
+    dispatch(loadTodos());
   }, []);
 
-  const onInsert = (text) => {
-    const id = uniqid();
-    setTodoList([
-      {
-        done: false,
-        text,
-        id,
-      },
-      ...todoList,
-    ]);
+  const onAdd = (text) => {
+    dispatch(addTodo(text));
   };
 
-  useEffect(() => {
-    insertToLocaleStorage(todoList);
-  }, [todoList]);
-
-  const onDelete = (index) => {
-    todoList.splice(index, 1);
-    setTodoList([...todoList]);
+  const onDelete = (id) => {
+    dispatch(deleteTodo(id));
   };
 
-  const onCheckChange = (index) => {
-    const newList = todoList.filter((todo, i) => i !== index);
-    const todo = todoList.find((e, i) => i === index);
-    todo.done = !todo.done;
-    setTodoList(todo.done ? [...newList, todo] : [todo, ...newList]);
+  const onCheckChange = (todo) => {
+    dispatch(updateTodo(todo));
   };
 
   return (
     <div className='container'>
-      <Header title='ToDo' />
+      <Header title='Eteration Bootcamp' />
       <div className='d-flex justify-content-center'>
-        <Input onClickProps={onInsert} />
+        <Input onAdd={onAdd} />
       </div>
       <TodoList
         todoList={todoList}

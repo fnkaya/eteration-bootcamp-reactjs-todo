@@ -11,45 +11,48 @@ const TodoList = ({ todoList, onDelete, onCheck }) => {
   const getCardStyle = (done) => {
     return done
       ? { backgroundColor: '#f5c0bc' }
-      : { backgroundColor: '#dbdbdb' };
+      : { backgroundColor: '#edf0ee' };
   };
 
-  return todoList.length > 0 ? (
-    todoList.map((todo, index) => (
-      <div
-        key={todo.id}
-        className='card shadow my-2'
-        style={getCardStyle(todo.done)}
-      >
-        <div className='card-body'>
-          <div className='my-1 form-check d-flex'>
-            <input
-              type='checkbox'
-              className='form-check-input'
-              id={index}
-              onChange={() => onCheck(index)}
-              checked={todo.done}
-            />
-            <label className={getLabelClassName(todo.done)} htmlFor={index}>
-              {todo.text}
-            </label>
-            <button
-              className='btn btn-sm btn-danger rounded-pill'
-              onClick={() => onDelete(index)}
-            >
-              <i className='bi bi-trash'></i>
-            </button>
-          </div>
+  const todoCard = (todo, index) => (
+    <div key={todo.id} className='card my-2' style={getCardStyle(todo.done)}>
+      <div className='card-body'>
+        <div className='my-1 form-check d-flex'>
+          <input
+            type='checkbox'
+            className={'form-check-input'}
+            id={`todo-${index}`}
+            onChange={() => onCheck(todo)}
+            checked={todo.done}
+          />
+          <label
+            className={getLabelClassName(todo.done)}
+            htmlFor={`todo-${index}`}
+          >
+            {todo.text}
+          </label>
+          <button
+            className='btn btn-sm btn-danger rounded-pill'
+            onClick={() => onDelete(todo.id)}
+          >
+            <i className='bi bi-trash'></i>
+          </button>
         </div>
       </div>
-    ))
-  ) : (
-    <div className='card my-3 shadow' style={{ backgroundColor: '#ffd980' }}>
+    </div>
+  );
+
+  const emptyCard = (
+    <div className='card my-3' style={{ backgroundColor: '#fffce8' }}>
       <div className='card-body text-center'>
         <i className='bi bi-inbox' />
       </div>
     </div>
   );
+
+  return todoList.length > 0
+    ? todoList.map((todo, index) => todoCard(todo, index))
+    : emptyCard;
 };
 
 export default TodoList;
