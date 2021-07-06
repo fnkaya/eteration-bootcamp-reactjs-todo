@@ -1,1 +1,1 @@
-![todo-app](./public/todo-1.jpg)
+![todo-app](./public/todo.jpg)
