@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const Input = ({ onClickProps }) => {
+const Input = ({ onAdd }) => {
   const [text, setText] = useState('');
 
   const onTextChange = (event) => {
@@ -10,19 +10,23 @@ const Input = ({ onClickProps }) => {
 
   const onClick = (event) => {
     event.preventDefault();
-    onClickProps(text);
+    onAdd(text);
     setText('');
   };
 
   return (
-    <form className='d-flex input-group shadow'>
+    <form className='d-flex input-group p-3 bg-white rounded-3'>
       <input
-        className='form-control flex-auto'
+        className='form-control flex-auto border-0 me-3'
         placeholder='ToDo ekle...'
         onChange={onTextChange}
         value={text}
       />
-      <button type='submit' className='btn btn-secondary' onClick={onClick}>
+      <button
+        type='submit'
+        className='btn btn-success rounded-pill'
+        onClick={onClick}
+      >
         <i className='bi bi-clipboard-plus'></i>
       </button>
     </form>
