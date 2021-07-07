@@ -1,10 +1,12 @@
 ```bash
 git clone https://github.com/fnkaya/reactjs-todo-redux-saga-hooks.git
+cd reactjs-todo-redux-saga-hooks
 ```
 ```bash
 npm install
 ```
 ```bash
+cd json-server
 json-server --watch data.json --port 5000
 ```
 ```bash
